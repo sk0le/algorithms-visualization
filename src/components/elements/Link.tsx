@@ -2,10 +2,11 @@ import { useRouter } from "next/router";
 
 interface CProps {
   to: string;
-  name: string;
+  children: React.ReactNode;
+  className?: string;
 }
 
-export default function Link({ to, name }: CProps) {
+export default function Link({ to, children, className }: CProps) {
   const router = useRouter();
   return (
     <a
@@ -13,9 +14,13 @@ export default function Link({ to, name }: CProps) {
         e.preventDefault();
         router.push(to);
       }}
-      className="text-gray-300 font-medium text-base cursor-pointer hover:decoration-blue-600 hover:text-zinc-100 decoration-2 underline decoration-transparent underline-offset-2"
+      className={`${
+        className
+          ? className
+          : "text-gray-300 font-medium text-base cursor-pointer hover:decoration-blue-600 hover:text-zinc-100 decoration-2 underline decoration-transparent underline-offset-2"
+      }`}
     >
-      {name}
+      {children}
     </a>
   );
 }
