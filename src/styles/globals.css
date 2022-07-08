@@ -7,6 +7,7 @@
    @apply bg-zinc-800 px-6 py-2 text-base w-full rounded-md focus:outline-none border border-transparent focus:border-zinc-600 text-gray-400 outline-none !important;
 }
 
+
 .rdn-drop {
     @apply  border-zinc-600 !important;
 }
