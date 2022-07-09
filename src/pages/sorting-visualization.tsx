@@ -107,7 +107,7 @@ export default function SortingVisualization() {
   return (
     <div className="flex flex-col h-screen w-full bg-zinc-900">
       <Head>
-        <title>Sorting Visualization - Algorithm Visualization</title>
+        <title>Sorting Visualization - Algorithms Visualization</title>
       </Head>
       <Header />
       <div className="h-full w-full flex flex-col xl:flex-row-reverse justify-around items-center">

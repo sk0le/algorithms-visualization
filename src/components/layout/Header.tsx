@@ -9,7 +9,8 @@ export default function Header() {
       >
         Algorithm <span className="text-yellow-600">Visualization</span>
       </Link>
-      <nav>
+      <nav className="space-x-7">
+        <Link to="/pathfinding-visualization">Pathfinding Visualization</Link>
         <Link to="/sorting-visualization">Sorting Visualization</Link>
       </nav>
     </header>
