@@ -105,12 +105,12 @@ export default function SortingVisualization() {
   };
 
   return (
-    <div className="flex flex-col h-screen w-full bg-zinc-900">
+    <div className="flex flex-col min-h-screen w-full bg-zinc-900">
       <Head>
         <title>Sorting Visualization - Algorithms Visualization</title>
       </Head>
       <Header />
-      <div className="h-full w-full flex flex-col xl:flex-row-reverse justify-around items-center">
+      <div className="h-full w-full flex-1 flex flex-col xl:flex-row-reverse justify-around items-center">
         <Bars arr={arr} />
 
         <div className="max-w-sm w-full flex flex-col items-start mt-10 justify-between">
