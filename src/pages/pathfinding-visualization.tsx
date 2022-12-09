@@ -7,8 +7,8 @@ import delay from "../helpers/delay";
 import backtrackDfs from "../helpers/pathfinding-algorithms/dfs/backtrackDfs";
 import getDefaultArray from "../helpers/pathfinding-algorithms/getDefalutArray";
 
-const ROW = 10,
-  COL = 20;
+const ROW = 25,
+  COL = 50;
 
 let offGrid = [Array(ROW).fill(Array(COL).fill(0))];
 
@@ -135,7 +135,34 @@ export default function PathfindingVisualization() {
     setGrid(offGrid);
   };
 
-  const mouseOverAction = () => {};
+  // const mouseOverAction = () => {};
+
+  const dropAction = (e: DragEvent, index: number, index2: number) => {
+    if (offGrid[index][index2] === 0) {
+      e.preventDefault();
+
+      const row = parseInt(e.dataTransfer.getData("row"));
+      const col = parseInt(e.dataTransfer.getData("col"));
+      const num = parseInt(e.dataTransfer.getData("type"));
+      if (num === 2 || num === 3) {
+        offGrid[row][col] = 0;
+        offGrid[index][index2] = num;
+        if (num === 2) {
+          START_ROW = index;
+          START_COL = index2;
+        }
+        document
+          .getElementById(`${row}-${col}`)
+          .classList.remove(`bg-${num === 2 ? "red" : "green"}-600`);
+        document
+          .getElementById(`${index}-${index2}`)
+          .classList.add(`bg-${num === 2 ? "red" : "green"}-600`);
+
+        setGrid(offGrid);
+        setMouseDown(false);
+      }
+    }
+  };
 
   return (
     <div className="flex flex-col min-h-screen w-full bg-zinc-900">
@@ -160,59 +187,27 @@ export default function PathfindingVisualization() {
                       draggable={value === 2 || value === 3 ? true : false}
                       onDragOver={(e) => {
                         e.preventDefault();
+                        setMouseDown(false);
                       }}
                       onDragStart={(e) => {
                         e.dataTransfer.setData("row", index.toString());
                         e.dataTransfer.setData("col", index2.toString());
                         e.dataTransfer.setData("type", value.toString());
+                        setMouseDown(false);
                       }}
                       onDrop={(e) => {
-                        if (offGrid[index][index2] === 0) {
-                          e.preventDefault();
-
-                          const row = parseInt(e.dataTransfer.getData("row"));
-                          const col = parseInt(e.dataTransfer.getData("col"));
-                          const num = parseInt(e.dataTransfer.getData("type"));
-                          offGrid[row][col] = 0;
-                          offGrid[index][index2] = num;
-                          if (num === 2) {
-                            START_ROW = index;
-                            START_COL = index2;
-                          }
-                          document
-                            .getElementById(`${row}-${col}`)
-                            .classList.remove(
-                              `bg-${num === 2 ? "red" : "green"}-600`
-                            );
+                        dropAction(e as any, index, index2);
+                      }}
+                      onMouseOver={(e) => {
+                        if (mouseDown && offGrid[index][index2] === 0) {
                           document
                             .getElementById(`${index}-${index2}`)
-                            .classList.add(
-                              `bg-${num === 2 ? "red" : "green"}-600`
-                            );
+                            .classList.add("bg-zinc-700");
 
-                          setGrid(offGrid);
+                          offGrid[index][index2] = 1;
                         }
                       }}
-                      // onMouseOver={(e) => {
-                      //   if (mouseDown && offGrid[index][index2] === 0) {
-                      //     document
-                      //       .getElementById(`${index}-${index2}`)
-                      //       .classList.add("bg-zinc-700");
-
-                      //     offGrid[index][index2] = 1;
-                      //   }
-                      // }}
-                      // onClick={(e) => {
-                      //   if (offGrid[index][index2] === 0) {
-                      //     document
-                      //       .getElementById(`${index}-${index2}`)
-                      //       .classList.add("bg-zinc-700");
-
-                      //     offGrid[index][index2] = 1;
-                      //     setGrid(offGrid);
-                      //   }
-                      // }}
-                      className={`w-10 h-10 mx-1 my-1 rounded-full border border-zinc-700 transition-all ${
+                      className={`w-6 h-6   border rounded-full border-zinc-700 transition-all ${
                         value === 1
                           ? "bg-zinc-700"
                           : value === 2
