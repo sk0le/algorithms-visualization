@@ -92,7 +92,7 @@ export default function SortingVisualization() {
   };
 
   const changeSpeed = (e: React.MouseEvent) => {
-    if (inputSpeed < 100 || inputSpeed > 5000) {
+    if (inputSpeed < 0 || inputSpeed > 5000) {
       addNotification(
         "Error",
         "Number must be between 100 AND 5000 milliseconds",
