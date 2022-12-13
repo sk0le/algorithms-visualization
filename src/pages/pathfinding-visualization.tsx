@@ -4,6 +4,7 @@ import { isBuffer } from "util";
 import Button from "../components/elements/Button";
 import Header from "../components/layout/Header";
 import delay from "../helpers/delay";
+import addNotification from "../helpers/notifications/addNotification";
 import backtrackDfs from "../helpers/pathfinding-algorithms/dfs/backtrackDfs";
 import getDefaultArray from "../helpers/pathfinding-algorithms/getDefalutArray";
 
@@ -15,8 +16,12 @@ let offGrid = [Array(ROW).fill(Array(COL).fill(0))];
 let START_ROW = 0,
   START_COL = 0;
 
+let END_ROW = ROW - 1,
+  END_COL = COL - 1;
+
 export default function PathfindingVisualization() {
   const [oldGrid, setGrid] = useState([]);
+  const [running, setRunning] = useState(false);
 
   const randomizeGrid = () => {
     let a = [];
@@ -36,11 +41,15 @@ export default function PathfindingVisualization() {
       }
       a.push(b);
     }
+    a[START_ROW][START_COL] = 2;
+    a[END_ROW][END_COL] = 3;
+    setGrid([]);
     setGrid(a);
     offGrid = a;
   };
 
   const findPathBFS = async () => {
+    setRunning(true);
     const grid = oldGrid;
     let q = [];
     let visited = [];
@@ -106,7 +115,17 @@ export default function PathfindingVisualization() {
     }
 
     // backtracking
-    if (foundPath) backtrackDfs(q[0], info);
+    if (foundPath) {
+      backtrackDfs(q[0], info);
+      addNotification(
+        "Success",
+        "You have successfully found a path.",
+        "success"
+      );
+      return;
+    }
+
+    addNotification("Error", "No path found.", "danger");
   };
 
   const getStartAndEnd = () => {
@@ -121,7 +140,6 @@ export default function PathfindingVisualization() {
     return () => {
       setGrid(Array(ROW).fill(Array(COL).fill(0)));
     };
-    // randomizeGrid();
   }, []);
 
   const [mouseDown, setMouseDown] = useState(false);
@@ -150,6 +168,9 @@ export default function PathfindingVisualization() {
         if (num === 2) {
           START_ROW = index;
           START_COL = index2;
+        } else {
+          END_ROW = index;
+          END_COL = index2;
         }
         document
           .getElementById(`${row}-${col}`)
@@ -223,14 +244,26 @@ export default function PathfindingVisualization() {
             );
           })}
         </div>
-        <Button
-          primary={true}
-          onClickAction={(e) => {
-            findPathBFS();
-          }}
-        >
-          Find
-        </Button>
+        <div className="flex">
+          <Button
+            primary={true}
+            disabled={running}
+            onClickAction={(e) => {
+              findPathBFS();
+            }}
+          >
+            Find
+          </Button>
+          <Button
+            primary={false}
+            disabled={running}
+            onClickAction={(e) => {
+              randomizeGrid();
+            }}
+          >
+            Randomize
+          </Button>
+        </div>
       </div>
     </div>
   );
