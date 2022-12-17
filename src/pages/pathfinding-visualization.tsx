@@ -244,7 +244,7 @@ export default function PathfindingVisualization() {
             );
           })}
         </div>
-        <div className="flex">
+        <div className="flex space-x-5">
           <Button
             primary={true}
             disabled={running}
