@@ -186,7 +186,7 @@ export default function PathfindingVisualization() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen w-full bg-zinc-900">
+    <div className="flex flex-col min-h-screen w-full bg-zinc-900" id="def">
       <Head>
         <title>Pathfinding Visualization - Algorithms Visualization</title>
       </Head>

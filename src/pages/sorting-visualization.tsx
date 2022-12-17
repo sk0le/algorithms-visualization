@@ -105,7 +105,7 @@ export default function SortingVisualization() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen w-full bg-zinc-900">
+    <div className="flex flex-col min-h-screen w-full bg-zinc-900" id="def">
       <Head>
         <title>Sorting Visualization - Algorithms Visualization</title>
       </Head>
